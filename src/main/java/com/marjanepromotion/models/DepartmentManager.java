@@ -19,14 +19,21 @@ public class DepartmentManager {
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "center", nullable = false)
+    private Center center;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department")
     private Department department;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "center", nullable = false)
-    private Center center;
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public Integer getId() {
         return id;
@@ -50,14 +57,6 @@ public class DepartmentManager {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 
     public Center getCenter() {

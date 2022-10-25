@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.marjanepromotion.models.Center" table="center" schema="public" catalog="MarjanePromo">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+            <generator class="increment"/>
+        </id>
+        <property name="city">
+            <column name="city" sql-type="varchar"/>
+        </property>
+        <one-to-one name="admins"  class="com.marjanepromotion.models.Admin"/>
+
+        <set name="departmentManagers" table="department_manager"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="department" not-null="true" />
+            </key>
+            <one-to-many class="com.marjanepromotion.models.DepartmentManager" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.marjanepromotion.models.Admin" table="admin" schema="public" catalog="MarjanePromo">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+            <generator class="increment"/>
+        </id>
+        <property name="email">
+            <column name="email" sql-type="varchar"/>
+        </property>
+        <property name="password">
+            <column name="password" sql-type="varchar"/>
+        </property>
+       <one-to-one name="center" class="com.marjanepromotion.models.Center"/>
+    </class>
+</hibernate-mapping>
