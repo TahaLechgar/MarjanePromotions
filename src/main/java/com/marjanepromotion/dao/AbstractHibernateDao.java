@@ -55,6 +55,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     protected SessionFactory sessionFactory;
 
     public final void setClazz(final Class<T> clazzToSet) {
+
         try{
             if(clazzToSet == null){
                 throw new NullPointerException();
@@ -63,6 +64,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         }catch(Exception exception){
             System.out.println(exception.getMessage());
         }
+
     }
 
     // API

@@ -7,5 +7,4 @@ public class PromotionDao extends AbstractHibernateDao<Promotion>{
     public PromotionDao(){
         setClazz(Promotion.class);
     }
-
 }
