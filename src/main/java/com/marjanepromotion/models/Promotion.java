@@ -3,11 +3,12 @@ package com.marjanepromotion.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "promotion")
-public class Promotion {
+public class Promotion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

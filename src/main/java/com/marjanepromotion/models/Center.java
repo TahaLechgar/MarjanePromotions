@@ -3,12 +3,13 @@ package com.marjanepromotion.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "center")
-public class Center {
+public class Center implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

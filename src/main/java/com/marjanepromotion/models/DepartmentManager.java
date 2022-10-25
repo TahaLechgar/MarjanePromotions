@@ -3,9 +3,11 @@ package com.marjanepromotion.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "department_manager")
-public class DepartmentManager {
+public class DepartmentManager implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

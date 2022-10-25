@@ -37,6 +37,7 @@ package com.marjanepromotion.dao;
 //
 //}
 
+import com.marjanepromotion.util.SessionUtil;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -130,6 +131,6 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     }
 
     protected Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+        return SessionUtil.getCurrentSession();
     }
 }

@@ -3,9 +3,11 @@ package com.marjanepromotion.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "director")
-public class Director {
+public class Director implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -3,11 +3,12 @@ package com.marjanepromotion.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

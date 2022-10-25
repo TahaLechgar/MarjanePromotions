@@ -2,6 +2,7 @@ package com.marjanepromotion;
 
 import java.io.*;
 
+import com.marjanepromotion.dao.DirectorDao;
 import com.marjanepromotion.models.Center;
 import com.marjanepromotion.models.Department;
 import com.marjanepromotion.models.DepartmentManager;
@@ -51,9 +52,11 @@ public class HelloServlet extends HttpServlet {
 
             Session session = SessionUtil.getCurrentSession();
             session.beginTransaction();
-            session.persist(department);
-            session.persist(center);
-            session.persist(departmentManager);
+//            session.persist(department);
+//            session.persist(center);
+//            session.persist(departmentManager);
+            DirectorDao directorDao = new DirectorDao();
+            Director director1 = directorDao.create(director);
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
