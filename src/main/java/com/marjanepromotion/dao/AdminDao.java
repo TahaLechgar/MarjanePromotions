@@ -18,9 +18,13 @@ public class AdminDao extends AbstractHibernateDao<Admin> implements IUser<Admin
     public Admin getRecordByEmail(String email){
         Session session = getCurrentSession();
         try{
-            return session.createQuery("select a from Admin a where email = :email", Admin.class)
+            session.beginTransaction();
+            Admin admin =  session.createQuery("select a from Admin a where email = :email", Admin.class)
                     .setParameter("email", email)
                     .getSingleResult();
+            session.getTransaction().commit();
+            session.close();
+            return admin;
 
         }catch (NoResultException ex){
             System.out.println(ex.getMessage());

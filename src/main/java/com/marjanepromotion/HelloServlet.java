@@ -1,12 +1,11 @@
 package com.marjanepromotion;
 
 import java.io.*;
+import java.util.Optional;
 
+import com.marjanepromotion.dao.AdminDao;
 import com.marjanepromotion.dao.DirectorDao;
-import com.marjanepromotion.models.Center;
-import com.marjanepromotion.models.Department;
-import com.marjanepromotion.models.DepartmentManager;
-import com.marjanepromotion.models.Director;
+import com.marjanepromotion.models.*;
 import com.marjanepromotion.util.SessionUtil;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -44,8 +43,8 @@ public class HelloServlet extends HttpServlet {
         departmentManager.setCenter(center);
 
         Director director = new Director();
-        director.setEmail("hehe@bo.y");
-        director.setPassword("password");
+        director.setEmail("wele@wala.l");
+        director.setPassword("test@test.com");
 
 
         try {
@@ -56,7 +55,11 @@ public class HelloServlet extends HttpServlet {
 //            session.persist(center);
 //            session.persist(departmentManager);
             DirectorDao directorDao = new DirectorDao();
-            Director director1 = directorDao.create(director);
+//            Director director1 = directorDao.getRecordByEmail("wele@wala.l");
+//            Optional<Director> optionalDirector = Optional.ofNullable(director1);
+//            optionalDirector.ifPresent(director2 -> System.out.println(director2.getEmail()));
+            System.out.println(directorDao.login(director));
+
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
