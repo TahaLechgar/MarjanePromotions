@@ -12,7 +12,11 @@ import java.io.IOException;
 public class DirectorLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        if(request.getSession(false) != null){
+            response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
+        }
+        request.setAttribute("userType", "director");
+        request.getRequestDispatcher("/login/Login.jsp").forward(request, response);
     }
 
 
@@ -36,7 +40,7 @@ public class DirectorLogin extends HttpServlet {
         director.setPassword(password);
 
         DirectorDao directorDao = new DirectorDao();
-        if(directorDao.login(director)){
+        if(directorDao.login(director) != null){
             HttpSession session = request.getSession();
             session.setAttribute("userType", "director");
             response.getWriter().println("Session Created with " + session.getId());

@@ -1,41 +1,4 @@
 package com.marjanepromotion.dao;
-//
-//
-//import com.marjanepromotion.util.SessionUtil;
-//import org.hibernate.Session;
-//
-//public abstract class AbstractHibernateDAO<T> {
-//
-//
-//    public void insert(T entity)  {
-//
-//        try{
-//            Session session = getCurrentSession();
-//            session.getTransaction();
-//            session.persist(entity);
-//            session.getTransaction().commit();
-//            session.close();
-//
-//        }catch (Exception exception){
-//            System.out.println("insert exception : " + exception.getMessage());
-//        }
-//
-//    }
-//
-//    public void update(T entity) {
-//        try {
-//
-//
-//        }catch (Exception exception){
-//            System.out.println("update exception : " + exception.getMessage());
-//        }
-//    }
-//
-//    private Session getCurrentSession() throws Exception{
-//        return SessionUtil.getCurrentSession();
-//    }
-//
-//}
 
 import com.marjanepromotion.util.SessionUtil;
 import jakarta.persistence.TypedQuery;
@@ -44,7 +7,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.postgresql.shaded.com.ongres.scram.common.util.Preconditions;
 
 import java.io.Serializable;
 import java.util.List;
@@ -69,18 +31,27 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
 
     // API
     public T findOne(final long id) {
-        return (T) getCurrentSession().get(clazz, id);
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        T record = (T) session.get(clazz, id);
+        session.getTransaction().commit();
+        session.close();
+        return record;
     }
 
     public List<T> findAll() {
         Session session = getCurrentSession();
+        session.beginTransaction();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(clazz);
         Root<T> rootEntry = cq.from(clazz);
         CriteriaQuery<T> all = cq.select(rootEntry);
 
         TypedQuery<T> allQuery = session.createQuery(all);
-        return allQuery.getResultList();
+        List<T> resultList = allQuery.getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return resultList;
     }
 
     public T create(final T entity) {

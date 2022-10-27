@@ -9,7 +9,9 @@
             <column name="id" sql-type="integer"/>
             <generator class="increment"/>
         </id>
-        <many-to-one name="product" class="com.marjanepromotion.models.Product" />
+        <many-to-one name="product" class="com.marjanepromotion.models.Product" >
+            <column name="product_id" />
+        </many-to-one>
         <property name="startDate">
             <column name="start_date" sql-type="date"/>
         </property>
@@ -22,5 +24,7 @@
         <property name="status">
             <column name="status" sql-type="varchar" not-null="true"/>
         </property>
+        <many-to-one name="center" class="com.marjanepromotion.models.Center" />
+
     </class>
 </hibernate-mapping>

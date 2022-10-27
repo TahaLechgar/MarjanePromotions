@@ -19,9 +19,13 @@ public class DirectorDao extends AbstractHibernateDao<Director> implements IUser
     public Director getRecordByEmail(String email){
         Session session = getCurrentSession();
         try{
-            return session.createQuery("select d from Director d where email = :email", Director.class)
+            session.beginTransaction();
+            Director director =  session.createQuery("select d from Director d where email = :email", Director.class)
                     .setParameter("email", email)
                     .getSingleResult();
+            session.getTransaction().commit();
+            session.close();
+            return director;
 
         }catch (NoResultException ex){
             System.out.println(ex.getMessage());
@@ -30,8 +34,11 @@ public class DirectorDao extends AbstractHibernateDao<Director> implements IUser
     }
 
     @Override
-    public boolean login(Director director) {
+    public Integer login(Director director) {
         Optional<Director> directorCheck = Optional.ofNullable(getRecordByEmail(director.getEmail()));
-        return directorCheck.filter(value -> director.getPassword().equals(value.getPassword())).isPresent();
+        if(directorCheck.filter(value -> director.getPassword().equals(value.getPassword())).isPresent()) {
+            return directorCheck.get().getId();
+        }
+        return null;
     }
 }

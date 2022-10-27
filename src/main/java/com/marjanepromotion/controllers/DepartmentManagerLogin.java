@@ -14,8 +14,11 @@ import java.io.IOException;
 public class DepartmentManagerLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
+        if(request.getSession(false) != null){
+            response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
+        }
+        request.setAttribute("userType", "department-manager");
+        request.getRequestDispatcher("/login/Login.jsp").forward(request, response);    }
 
 
     @Override
@@ -38,7 +41,7 @@ public class DepartmentManagerLogin extends HttpServlet {
         departmentManager.setPassword(password);
 
         DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
-        if(departmentManagerDao.login(departmentManager)){
+        if(departmentManagerDao.login(departmentManager) != null){
             HttpSession session = request.getSession();
             session.setAttribute("userType", "department-manager");
             response.getWriter().println("Session Created with " + session.getId());

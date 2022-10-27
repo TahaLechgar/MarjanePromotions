@@ -7,6 +7,8 @@ import com.marjanepromotion.dao.AdminDao;
 import com.marjanepromotion.dao.DirectorDao;
 import com.marjanepromotion.models.*;
 import com.marjanepromotion.util.SessionUtil;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.hibernate.Session;
@@ -19,7 +21,7 @@ public class HelloServlet extends HttpServlet {
         message = "Hello World!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
         // Hello
@@ -46,7 +48,6 @@ public class HelloServlet extends HttpServlet {
         director.setEmail("wele@wala.l");
         director.setPassword("test@test.com");
 
-
         try {
 
             Session session = SessionUtil.getCurrentSession();
@@ -58,7 +59,7 @@ public class HelloServlet extends HttpServlet {
 //            Director director1 = directorDao.getRecordByEmail("wele@wala.l");
 //            Optional<Director> optionalDirector = Optional.ofNullable(director1);
 //            optionalDirector.ifPresent(director2 -> System.out.println(director2.getEmail()));
-            System.out.println(directorDao.login(director));
+//            System.out.println(directorDao.login(director));
 
             session.getTransaction().commit();
             session.close();

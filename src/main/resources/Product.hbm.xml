@@ -19,7 +19,7 @@
             <column name="quantity" sql-type="integer"/>
         </property>
         <property name="codeBare">
-            <column name="codeBare" sql-type="bigint"/>
+            <column name="codebare" sql-type="bigint"/>
         </property>
 
         <many-to-one name="department" class="com.marjanepromotion.models.Department" />

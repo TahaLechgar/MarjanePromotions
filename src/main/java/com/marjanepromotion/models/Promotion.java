@@ -33,6 +33,18 @@ public class Promotion implements Serializable {
     @Column(name = "status", length = Integer.MAX_VALUE)
     private String status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "center")
+    private Center center;
+
+    public Center getCenter() {
+        return center;
+    }
+
+    public void setCenter(Center center) {
+        this.center = center;
+    }
+
     public Integer getId() {
         return id;
     }

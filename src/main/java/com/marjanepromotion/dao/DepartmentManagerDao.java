@@ -1,9 +1,7 @@
 package com.marjanepromotion.dao;
 
 import com.marjanepromotion.authentification.IUser;
-import com.marjanepromotion.models.Admin;
 import com.marjanepromotion.models.DepartmentManager;
-import com.marjanepromotion.models.Director;
 import jakarta.persistence.NoResultException;
 import org.hibernate.Session;
 
@@ -18,9 +16,12 @@ public class DepartmentManagerDao extends AbstractHibernateDao<DepartmentManager
     public DepartmentManager getRecordByEmail(String email){
         Session session = getCurrentSession();
         try{
-            return session.createQuery("select d from DepartmentManager d where email = :email", DepartmentManager.class)
+            session.beginTransaction();
+            DepartmentManager departmentManager =  session.createQuery("select d from DepartmentManager d where email = :email", DepartmentManager.class)
                     .setParameter("email", email)
                     .getSingleResult();
+            session.getTransaction().commit();
+            return departmentManager;
 
         }catch (NoResultException ex){
             System.out.println(ex.getMessage());
@@ -29,8 +30,11 @@ public class DepartmentManagerDao extends AbstractHibernateDao<DepartmentManager
     }
 
     @Override
-    public boolean login(DepartmentManager departmentManager) {
+    public Integer login(DepartmentManager departmentManager) {
         Optional<DepartmentManager> departmentManagerCheck = Optional.ofNullable(getRecordByEmail(departmentManager.getEmail()));
-        return departmentManagerCheck.filter(value -> departmentManager.getPassword().equals(value.getPassword())).isPresent();
+        if(departmentManagerCheck.filter(value -> departmentManager.getPassword().equals(value.getPassword())).isPresent()) {
+            return departmentManagerCheck.get().getId();
+        }
+        return null;
     }
 }

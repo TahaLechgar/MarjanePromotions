@@ -33,8 +33,11 @@ public class AdminDao extends AbstractHibernateDao<Admin> implements IUser<Admin
     }
 
     @Override
-    public boolean login(Admin admin) {
+    public Integer login(Admin admin) {
         Optional<Admin> adminCheck = Optional.ofNullable(getRecordByEmail(admin.getEmail()));
-        return adminCheck.filter(value -> admin.getPassword().equals(value.getPassword())).isPresent();
+        if(adminCheck.filter(value -> admin.getPassword().equals(value.getPassword())).isPresent()){
+            return adminCheck.get().getId();
+        }
+        return null;
     }
 }

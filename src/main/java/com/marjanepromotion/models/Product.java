@@ -26,7 +26,7 @@ public class Product implements Serializable {
     private Integer quantity;
 
     @NotNull
-    @Column(name = "\"codeBare\"", nullable = false)
+    @Column(name = "codebare", nullable = false)
     private Long codeBare;
 
     @ManyToOne(fetch = FetchType.LAZY)
