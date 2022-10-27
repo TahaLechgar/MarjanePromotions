@@ -1,6 +1,7 @@
 package com.marjanepromotion.controllers;
 
 import com.marjanepromotion.dao.DirectorDao;
+import com.marjanepromotion.models.Admin;
 import com.marjanepromotion.models.Director;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -14,6 +15,7 @@ public class DirectorLogin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getSession(false) != null){
             response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
+            return;
         }
         request.setAttribute("userType", "director");
         request.getRequestDispatcher("/login/Login.jsp").forward(request, response);
@@ -40,9 +42,13 @@ public class DirectorLogin extends HttpServlet {
         director.setPassword(password);
 
         DirectorDao directorDao = new DirectorDao();
-        if(directorDao.login(director) != null){
+        Integer directorID = directorDao.login(director);
+
+        if(directorID != null){
             HttpSession session = request.getSession();
             session.setAttribute("userType", "director");
+            Director logged = directorDao.findOne(directorID);
+            session.setAttribute("user", logged);
             response.getWriter().println("Session Created with " + session.getId());
         }else
             response.getWriter().println("Session is not created");

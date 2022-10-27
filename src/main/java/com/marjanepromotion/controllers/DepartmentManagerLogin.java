@@ -41,8 +41,11 @@ public class DepartmentManagerLogin extends HttpServlet {
         departmentManager.setPassword(password);
 
         DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
-        if(departmentManagerDao.login(departmentManager) != null){
+        Integer departmentManagerID = departmentManagerDao.login(departmentManager);
+        if(departmentManagerID != null){
             HttpSession session = request.getSession();
+            DepartmentManager logged = departmentManagerDao.findOne(departmentManagerID);
+            session.setAttribute("user", logged);
             session.setAttribute("userType", "department-manager");
             response.getWriter().println("Session Created with " + session.getId());
         }else

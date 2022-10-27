@@ -46,7 +46,6 @@ public class AdminLogin extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("userType", "admin");
             Admin logged = adminDao.findOne(adminID);
-            System.out.println("admin : " + logged.getId());
             session.setAttribute("user", logged);
             response.getWriter().println("Session Created with " + session.getId());
         }else
