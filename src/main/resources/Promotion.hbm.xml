@@ -9,8 +9,8 @@
             <column name="id" sql-type="integer"/>
             <generator class="increment"/>
         </id>
-        <many-to-one name="product" class="com.marjanepromotion.models.Product" >
-            <column name="product_id" />
+        <many-to-one name="department" class="com.marjanepromotion.models.Department" >
+            <column name="department" />
         </many-to-one>
         <property name="startDate">
             <column name="start_date" sql-type="date"/>

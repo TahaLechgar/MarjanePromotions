@@ -15,8 +15,8 @@ public class Promotion implements Serializable {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "department")
+    private Department department;
 
     @NotNull
     @Column(name = "start_date", nullable = false)
@@ -53,12 +53,12 @@ public class Promotion implements Serializable {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public LocalDate getStartDate() {
