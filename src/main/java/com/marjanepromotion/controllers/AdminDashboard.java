@@ -75,6 +75,8 @@ public class AdminDashboard extends HttpServlet {
 
             promotion = promotionDao.create(promotion);
 
+            doGet(request, response);
+
         }
     }
 

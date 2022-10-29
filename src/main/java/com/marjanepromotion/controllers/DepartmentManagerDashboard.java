@@ -53,5 +53,7 @@ public class DepartmentManagerDashboard extends HttpServlet {
             promotion = promotionDao.update(promotion);
 
         }
+
+        doGet(request, response);
     }
 }
