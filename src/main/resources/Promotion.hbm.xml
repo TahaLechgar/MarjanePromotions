@@ -24,6 +24,9 @@
         <property name="status">
             <column name="status" sql-type="varchar" not-null="true"/>
         </property>
+        <property name="description">
+            <column name="description" sql-type="text" not-null="true"/>
+        </property>
         <many-to-one name="center" class="com.marjanepromotion.models.Center" />
 
     </class>

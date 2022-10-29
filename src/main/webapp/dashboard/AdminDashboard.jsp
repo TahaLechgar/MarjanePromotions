@@ -1,6 +1,8 @@
 <%@ page import="com.marjanepromotion.models.DepartmentManager" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.marjanepromotion.models.Promotion" %><%--
+<%@ page import="com.marjanepromotion.models.Promotion" %>
+<%@ page import="com.marjanepromotion.models.Center" %>
+<%@ page import="com.marjanepromotion.models.Department" %><%--
   Created by IntelliJ IDEA.
   User: Youcode
   Date: 10/27/2022
@@ -9,6 +11,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <%
     List<DepartmentManager> departmentManagers = (List<DepartmentManager>) request.getAttribute("departmentManagers");
@@ -127,63 +131,50 @@
 </div>
 
 <div class=" w-full mt-10 sm:mt-0">
-    <div class=" mx-auto w-10/12 flex justify-center">
-        <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" method="POST">
+    <div class=" mx-auto w-6/12 flex justify-center">
+        <div class="mt-5 w-full md:mt-0 md:col-span-2">
+            <form action="${pageContext.request.contextPath}/AdminDashboard" method="POST">
                 <div class="shadow overflow-hidden sm:rounded-md">
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <div class="grid grid-cols-6 gap-6">
+                            <input type="hidden" name="add-promotion">
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <label for="start-date" class="block text-sm font-medium text-gray-700">Start :</label>
+                                <input type="date" name="start-date" id="start-date" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <label for="end-date" class="block text-sm font-medium text-gray-700">End :</label>
+                                <input type="date" name="end-date" id="end-date" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
 
-                            <div class="col-span-6 sm:col-span-4">
-                                <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
-                                <input type="text" name="email-address" id="email-address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <div class="col-span-6 ">
+                                <label for="about" class="block text-sm font-medium text-gray-700">Description :</label>
+                                <textarea placeholder="describe your promotion" id="about" name="description" rows="3" class="p-2 shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="center" class="block text-sm font-medium text-gray-700">Center</label>
-                                <select id="center" name="country" autocomplete="country-name" class="mt-1 p-2 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>Mexico</option>
+                                <select id="center" name="center"  class="mt-1 p-2 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <c:forEach items="${centers}" var="center">
+                                        <option value="${center.getId()}">${center.getCity()}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="Product" class="block text-sm font-medium text-gray-700">Product</label>
-                                <select id="Product" name="country" autocomplete="country-name" class="mt-1 p-2 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>Mexico</option>
+                                <label for="Department" class="block text-sm font-medium text-gray-700">Department</label>
+                                <select id="Department" name="department"  class="mt-1 p-2 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <c:forEach items="${departments}" var="department">
+                                        <option value="${department.getId()}">${department.getName()}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
 
-                            <div class="col-span-6">
-                                <label for="street-address" class="block text-sm font-medium text-gray-700">Street address</label>
-                                <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="street-address" class="block text-sm font-medium text-gray-700">Percentage : </label>
+                                <input type="number" min="1" max="100" name="percentage" id="street-address" autocomplete="street-address" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
 
-                            <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                <input type="text" name="city" id="city" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                <label for="region" class="block text-sm font-medium text-gray-700">State / Province</label>
-                                <input type="text" name="region" id="region" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
-                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
                         </div>
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -194,6 +185,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    let endDate = document.querySelector("#end-date");
+    let startDate = document.querySelector("#start-date");
+    endDate.min = new Date().toISOString().split("T")[0];
+    startDate.min = new Date().toISOString().split("T")[0];
+
+
+</script>
 
 </body>
 </html>

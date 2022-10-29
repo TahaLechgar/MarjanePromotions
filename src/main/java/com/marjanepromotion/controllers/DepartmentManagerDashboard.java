@@ -30,10 +30,28 @@ public class DepartmentManagerDashboard extends HttpServlet {
         request.setAttribute("pendingPromotions", pendingPromotions);
 
         request.getRequestDispatcher("dashboard/DepartmentManager.jsp").forward(request, response);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameter("accept") != null){
+            int promotionId = Integer.parseInt(request.getParameter("accept"));
 
+            PromotionDao promotionDao = new PromotionDao();
+            Promotion promotion = promotionDao.findOne(promotionId);
+
+            promotion.setStatus("accepted");
+            promotion = promotionDao.update(promotion);
+        }else if(request.getParameter("refuse") != null){
+            int promotionId = Integer.parseInt(request.getParameter("refuse"));
+
+            PromotionDao promotionDao = new PromotionDao();
+            Promotion promotion = promotionDao.findOne(promotionId);
+
+            promotion.setStatus("refused");
+            promotion = promotionDao.update(promotion);
+
+        }
     }
 }

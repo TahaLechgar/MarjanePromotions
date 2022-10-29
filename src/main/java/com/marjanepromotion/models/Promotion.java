@@ -26,12 +26,36 @@ public class Promotion implements Serializable {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDate createdAt;
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @NotNull
     @Column(name = "percentage", nullable = false)
     private Integer percentage;
 
     @Column(name = "status", length = Integer.MAX_VALUE)
     private String status;
+
+
+    @Column(name = "description", length = Integer.MAX_VALUE)
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "center")

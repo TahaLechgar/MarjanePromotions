@@ -59,7 +59,11 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
             if(entity == null){
                 throw new NullPointerException();
             }
-            getCurrentSession().persist(entity);
+            Session session = getCurrentSession();
+            session.beginTransaction();
+            session.persist(entity);
+            session.getTransaction().commit();
+            session.close();
             return entity;
         }catch(Exception exception){
             System.out.println(exception.getMessage());
@@ -73,7 +77,12 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
             if(entity == null){
                 throw new NullPointerException();
             }
-            return (T) getCurrentSession().merge(entity);
+            Session session = getCurrentSession();
+            session.beginTransaction();
+            T result = session.merge(entity);
+            session.getTransaction().commit();
+            session.close();
+            return result;
         }catch(Exception exception){
             System.out.println(exception.getMessage());
             return null;
