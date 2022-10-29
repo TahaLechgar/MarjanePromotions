@@ -32,6 +32,9 @@
 <div class="container p-6 ">
     <div class="flex flex-col w-11/12 my-10 mx-auto">
 
+
+
+
         <h1 class="my-4 bold text-xl font-bold">Department Managers : </h1>
 
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -130,6 +133,13 @@
 
 </div>
 
+<c:if test="${error != null}">
+    <h4 class="text-red-500 font-bold w-full text-center">
+        <c:out value="${error}"/>
+    </h4>
+</c:if>
+
+
 <div class=" w-full mt-10 sm:mt-0">
     <div class=" mx-auto w-6/12 flex justify-center">
         <div class="mt-5 w-full md:mt-0 md:col-span-2">
@@ -172,7 +182,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="street-address" class="block text-sm font-medium text-gray-700">Percentage : </label>
-                                <input type="number" min="1" max="100" name="percentage" id="street-address" autocomplete="street-address" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                <input type="number" min="1" max="50" name="percentage" id="street-address" autocomplete="street-address" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </div>
 
                         </div>

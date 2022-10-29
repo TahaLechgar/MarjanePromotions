@@ -53,6 +53,11 @@ public class AdminDashboard extends HttpServlet {
             String endDate = request.getParameter("end-date");
             String description = request.getParameter("description");
             Integer percentage = Integer.parseInt(request.getParameter("percentage"));
+            if(percentage > 50){
+                request.setAttribute("error", "la promotion ne doit pas dépasser 50%");
+                doGet(request, response);
+                return;
+            }
             int centerId = Integer.parseInt(request.getParameter("center"));
             int departmentId = Integer.parseInt(request.getParameter("department"));
 
@@ -66,6 +71,7 @@ public class AdminDashboard extends HttpServlet {
             promotion.setEndDate(LocalDate.parse(endDate));
             promotion.setPercentage(percentage);
             promotion.setDescription(description);
+            promotion.setStatus("pending");
 
             promotion = promotionDao.create(promotion);
 
