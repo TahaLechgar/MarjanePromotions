@@ -15,8 +15,18 @@ public class Scheduler {
 
     public void setScheduler(){
         Task task = new Task();
-        long midnight = LocalDateTime.now().until(LocalDate.now().plusDays(1).atTime(LocalTime.NOON), ChronoUnit.MINUTES);
-        scheduler.scheduleAtFixedRate(task, midnight, TimeUnit.DAYS.toMinutes(1), TimeUnit.MINUTES);
+
+        LocalTime refTime = LocalTime.of(12, 0);
+        LocalTime now = LocalTime.now();
+        long midday;
+        if (now.isAfter(refTime)) {
+            midday = LocalDateTime.now().until(LocalDate.now().plusDays(1).atTime(LocalTime.NOON), ChronoUnit.MINUTES);
+        }else
+            midday = LocalDateTime.now().until(LocalDate.now().atTime(LocalTime.NOON), ChronoUnit.MINUTES);
+
+
+        scheduler.scheduleAtFixedRate(task, midday, TimeUnit.DAYS.toMinutes(1), TimeUnit.MINUTES);
+        
     }
 
 }
