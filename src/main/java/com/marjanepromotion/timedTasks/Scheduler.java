@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 public class Scheduler {
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    //Change here for the hour you want ----------------------------------.at()
-
     public void setScheduler(){
         Task task = new Task();
 
@@ -26,7 +24,7 @@ public class Scheduler {
 
 
         scheduler.scheduleAtFixedRate(task, midday, TimeUnit.DAYS.toMinutes(1), TimeUnit.MINUTES);
-        
+
     }
 
 }
