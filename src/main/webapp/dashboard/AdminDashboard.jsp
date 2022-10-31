@@ -10,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page session="false" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -117,9 +117,6 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> <%= promotion.getStatus() %> </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                            </td>
                         </tr>
                         <% } %>
 
@@ -143,7 +140,7 @@
 <div class=" w-full mt-10 sm:mt-0">
     <div class=" mx-auto w-6/12 flex justify-center">
         <div class="mt-5 w-full md:mt-0 md:col-span-2">
-            <form action="${pageContext.request.contextPath}/AdminDashboard" method="POST">
+            <form action="${pageContext.request.contextPath}/dashboard/admin" method="POST">
                 <div class="shadow overflow-hidden sm:rounded-md">
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <div class="grid grid-cols-6 gap-6">
@@ -160,7 +157,7 @@
 
                             <div class="col-span-6 ">
                                 <label for="about" class="block text-sm font-medium text-gray-700">Description :</label>
-                                <textarea placeholder="describe your promotion" id="about" name="description" rows="3" class="p-2 shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
+                                <textarea placeholder="Describe your promotion" id="about" name="description" rows="3" class="p-2 shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">

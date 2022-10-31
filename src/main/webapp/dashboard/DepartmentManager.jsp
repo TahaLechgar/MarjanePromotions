@@ -9,7 +9,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page session="false" %>
 
 <%
     List<Promotion> acceptedPromotions = (List<Promotion>) request.getAttribute("acceptedPromotions");
@@ -75,13 +74,13 @@
                             </td>
                             <% if(promotion.getStatus().equals("pending")){%>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <form action="${pageContext.request.contextPath}/DepartmentManagerDashboard" method="post">
+                                <form action="${pageContext.request.contextPath}/dashboard/department-manager" method="post">
                                     <input type="hidden" name="accept" value="<%=promotion.getId()%>">
                                     <button style="outline: none;" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 outline-none">accept</button>
                                 </form>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <form action="${pageContext.request.contextPath}/DepartmentManagerDashboard" method="post">
+                                <form action="${pageContext.request.contextPath}/dashboard/department-manager" method="post">
                                     <input type="hidden" name="refuse" value="<%=promotion.getId()%>">
                                     <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none ">refuse</button>
                                 </form>

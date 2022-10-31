@@ -13,10 +13,29 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "AdminDashboard", value = "/AdminDashboard")
+@WebServlet(name = "AdminDashboard", value = "/dashboard/admin")
 public class AdminDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("userType") == null){
+            response.sendRedirect("/login/admin");
+            return;
+        }
+
+        if(!request.getSession().getAttribute("userType").equals("admin")){
+            response.sendRedirect("/dashboard/"+request.getSession().getAttribute("userType"));
+            return;
+        }
+
+        String userType = (String)request.getSession().getAttribute("userType");
+        if ("department-manager".equals(userType)) {
+            response.sendRedirect("/dashboard/department-manager");
+            return;
+        } else if ("director".equals(userType)) {
+            response.sendRedirect("/dashboard/director");
+            return;
+        }
+
         Admin logged = (Admin) request.getSession().getAttribute("user");
 
         CenterDao centerDao = new CenterDao();
@@ -36,7 +55,6 @@ public class AdminDashboard extends HttpServlet {
         request.setAttribute("centers", centers);
         request.setAttribute("departments", departments);
 
-//        response.getWriter().println(departmentManagers.get(0).getCenter().getCity());
         request.getRequestDispatcher("/dashboard/AdminDashboard.jsp").forward(request, response);
     }
 

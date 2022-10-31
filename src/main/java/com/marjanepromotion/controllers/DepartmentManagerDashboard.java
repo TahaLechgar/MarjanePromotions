@@ -11,10 +11,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "DepartmentManagerDashboard", value = "/DepartmentManagerDashboard")
+@WebServlet(name = "DepartmentManagerDashboard", value = "/dashboard/department-manager")
 public class DepartmentManagerDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("userType") == null){
+            response.sendRedirect("/login/department-manager");
+            return;
+        }
+
+        if(!request.getSession().getAttribute("userType").equals("department-manager")){
+            response.sendRedirect("/dashboard/"+request.getSession().getAttribute("userType"));
+            return;
+        }
+
         DepartmentManager logged = (DepartmentManager) request.getSession().getAttribute("user");
         PromotionDao promotionDao = new PromotionDao();
         List<Promotion> promotions = promotionDao.findAll();
@@ -29,7 +39,7 @@ public class DepartmentManagerDashboard extends HttpServlet {
         request.setAttribute("notAcceptedPromotions", notAcceptedPromotions);
         request.setAttribute("pendingPromotions", pendingPromotions);
 
-        request.getRequestDispatcher("dashboard/DepartmentManager.jsp").forward(request, response);
+        request.getRequestDispatcher("/dashboard/DepartmentManager.jsp").forward(request, response);
 
     }
 

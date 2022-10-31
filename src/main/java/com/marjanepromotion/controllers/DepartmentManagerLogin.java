@@ -14,8 +14,9 @@ import java.io.IOException;
 public class DepartmentManagerLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession(false) != null){
-            response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
+        if(request.getSession().getAttribute("userType") != null){
+            response.sendRedirect("/dashboard/"+request.getSession().getAttribute("userType"));
+            return;
         }
         request.setAttribute("userType", "department-manager");
         request.getRequestDispatcher("/login/Login.jsp").forward(request, response);    }
@@ -23,10 +24,11 @@ public class DepartmentManagerLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession(false) != null){
+        if(request.getSession().getAttribute("userType") != null){
             response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
             return;
         }
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -47,9 +49,9 @@ public class DepartmentManagerLogin extends HttpServlet {
             DepartmentManager logged = departmentManagerDao.findOne(departmentManagerID);
             session.setAttribute("user", logged);
             session.setAttribute("userType", "department-manager");
-            response.getWriter().println("Session Created with " + session.getId());
+            response.sendRedirect("/dashboard/department-manager");
         }else
-            response.getWriter().println("Session is not created");
+            response.getWriter().println("Wrong credentials");
 
     }
 

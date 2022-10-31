@@ -12,8 +12,8 @@ import java.io.IOException;
 public class AdminLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession(false) != null){
-            response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
+        if(request.getSession().getAttribute("userType") != null){
+            response.sendRedirect("/dashboard/"+request.getSession().getAttribute("userType"));
             return;
         }
         request.setAttribute("userType", "admin");
@@ -23,7 +23,7 @@ public class AdminLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession(false) != null){
+        if(request.getSession().getAttribute("userType") != null){
             response.getWriter().println("Already logged in as " + request.getSession().getAttribute("userType"));
             return;
         }
@@ -47,10 +47,9 @@ public class AdminLogin extends HttpServlet {
             session.setAttribute("userType", "admin");
             Admin logged = adminDao.findOne(adminID);
             session.setAttribute("user", logged);
-            response.getWriter().println("Session Created with " + session.getId());
+            response.sendRedirect("/dashboard/admin");
         }else
-            response.getWriter().println("Session is not created");
-
+            response.getWriter().println("Wrong credentials");
     }
 
 

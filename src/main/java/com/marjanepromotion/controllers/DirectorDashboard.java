@@ -13,10 +13,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "DirectorDashboard", value = "/DirectorDashboard")
+@WebServlet(name = "DirectorDashboard", value = "/dashboard/director")
 public class DirectorDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(request.getSession().getAttribute("userType") == null){
+            response.sendRedirect("/login/director");
+            return;
+        }
+
+        if(!request.getSession().getAttribute("userType").equals("director")){
+            response.sendRedirect("/dashboard/"+request.getSession().getAttribute("userType"));
+            return;
+        }
+
         Director logged = (Director) request.getSession().getAttribute("user");
         AdminDao adminDao = new AdminDao();
         PromotionDao promotionDao = new PromotionDao();
@@ -32,7 +43,7 @@ public class DirectorDashboard extends HttpServlet {
         request.setAttribute("notAcceptedPromotions", notAcceptedPromotions);
         request.setAttribute("pendingPromotions", pendingPromotions);
 
-        request.getRequestDispatcher("dashboard/DirectorDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/dashboard/DirectorDashboard.jsp").forward(request, response);
     }
 
     @Override
