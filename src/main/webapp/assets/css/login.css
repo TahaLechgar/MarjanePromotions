@@ -1,17 +1,392 @@
-.login-wrapper {
-    background-image: url("../images/2338251.jpg");
-    background-position: center;
-    background-size: cover ;
-    background-repeat: no-repeat;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-.overlay {
-    background-color: black;
-    opacity: .5;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
+.navbar {
+  width: 100%;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: white;
 }
+
+.navbar__container {
+  width: 90%;
+  height: 100%;
+  color: gray;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navbar__container .menu-toggler {
+  width: 40px;
+  height: auto;
+}
+
+.navbar__menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 5% 5%;
+  width: 100vw;
+  position: absolute;
+  background-color: white;
+  top: 60px;
+  left: 0;
+  height: 210px;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+@media (min-width: 640px) {
+  .navbar__menu {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: 100%;
+    width: 100%;
+    position: static;
+    padding: 0;
+  }
+}
+
+.navbar__links {
+  margin-inline: auto;
+  color: black;
+  width: 25%;
+  height: 80%;
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .navbar__links {
+    width: 100%;
+  }
+}
+
+.navbar__links ul {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  background-color: white;
+  height: 100%;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  gap: 15px;
+}
+
+@media (min-width: 640px) {
+  .navbar__links ul {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-weight: bold;
+  }
+}
+
+.navbar__links ul .link a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar__logo {
+  width: 120px;
+  height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.navbar__logo img {
+  width: 100%;
+}
+
+.navbar__login {
+  background-color: #FEE035;
+  text-align: center;
+  max-width: 150px;
+  padding: 12px 24px;
+  text-decoration: none;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  max-width: 50%;
+  max-height: 50px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  border-radius: 5px;
+}
+
+.body__overlay {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+  opacity: .5;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media (min-width: 640px) {
+  .body__overlay {
+    display: none  !important;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+.main {
+  width: 100%;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  background-image: url("../images/image-asset.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main__overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #085DA8;
+  opacity: 20%;
+}
+
+.main__overlay--black {
+  background-color: black;
+}
+
+.main__login {
+  position: relative;
+  z-index: 2;
+  width: 500px;
+  min-height: 400px;
+  height: 75%;
+  background-color: white;
+  padding: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 20px;
+}
+
+@media (max-width: 540px) {
+  .main__login {
+    width: 80%;
+  }
+}
+
+.main__form {
+  width: 70%;
+  height: 80%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.main__form legend {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.main__form .description {
+  text-align: center;
+  font-weight: medium;
+}
+
+.main__form button {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 2px solid #005EB1;
+  background-color: #005EB1;
+  color: white;
+  font-weight: medium;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.main__form button:hover {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  color: #005EB1;
+  background-color: white;
+}
+
+.main__form .signin {
+  position: relative;
+  width: 70%;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.main__form .signin::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 50px;
+  height: 2px;
+  background-color: black;
+}
+
+.main__form .signin::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 50px;
+  height: 2px;
+  background-color: black;
+}
+
+.main__inputs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.main__inputs input {
+  padding: 12px 24px;
+  border-radius: 8px;
+  outline: none;
+  border: 1.8px solid #dadada;
+}
+
+.main__otherLogin {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+
+.main__otherLogin a {
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  width: 45%;
+  border: 1.6px solid #f0ecec;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  color: black;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main__otherLogin a img {
+  width: 20px;
+  height: 20px;
+}
+/*# sourceMappingURL=login.css.map */
