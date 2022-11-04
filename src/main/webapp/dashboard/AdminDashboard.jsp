@@ -1,8 +1,7 @@
 <%@ page import="com.marjanepromotion.models.DepartmentManager" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.marjanepromotion.models.Promotion" %>
-<%@ page import="com.marjanepromotion.models.Center" %>
-<%@ page import="com.marjanepromotion.models.Department" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Youcode
   Date: 10/27/2022
@@ -15,21 +14,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<%
-    List<DepartmentManager> departmentManagers = (List<DepartmentManager>) request.getAttribute("departmentManagers");
-    List<Promotion> promotions = (List<Promotion>) request.getAttribute("promotions");
-
-%>
-
-<html>
-<head>
-    <title>Admin dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-
-</head>
-<body>
-<!-- This example requires Tailwind CSS v2.0+ -->
 
 <div class="container p-6 ">
     <div class="flex flex-col w-11/12 my-10 mx-auto">
@@ -55,25 +39,29 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <% for(DepartmentManager departmentManager: departmentManagers){ %>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+
+                        <c:forEach items="${departmentManagers}" var="departmentManager" >
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /> </div>
+                                        </div>
                                     </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm text-gray-500"><%=departmentManager.getEmail()%></div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%=departmentManager.getCenter().getCity()%></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%=departmentManager.getDepartment().getName()%></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                            </td>
-                        </tr>
-                        <%}%>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+
+
+
 
                         <!-- More people... -->
                         </tbody>
@@ -102,25 +90,26 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <% for(Promotion promotion: promotions) { %>
+
+                        <c:forEach items="${promotions}" var="promotion" >
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900"><%= promotion.getDepartment().getName() %></div>
+                                        <div class="text-sm font-medium text-gray-900"> <c:out value="${promotion.getDepartment().getName()}" /> </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">From : <%= promotion.getStartDate() %></div>
-                                <div class="text-sm text-gray-900">To : <%= promotion.getEndDate() %></div>
+                                <div class="text-sm text-gray-900">From : <c:out value="${promotion.getStartDate()}" /></div>
+                                <div class="text-sm text-gray-900">To : <c:out value="${promotion.getEndDate()}" /></div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= promotion.getPercentage() %>%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${promotion.getPercentage()}" />%</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> <%= promotion.getStatus() %> </span>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> <c:out value="${promotion.getStatus()}" /> </span>
                             </td>
                         </tr>
-                        <% } %>
+                        </c:forEach>
 
                         <!-- More people... -->
                         </tbody>
@@ -204,5 +193,3 @@
 
 </script>
 
-</body>
-</html>

@@ -55,7 +55,7 @@ public class AdminDashboard extends HttpServlet {
         request.setAttribute("centers", centers);
         request.setAttribute("departments", departments);
 
-        request.getRequestDispatcher("/dashboard/AdminDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
     }
 
     @Override
