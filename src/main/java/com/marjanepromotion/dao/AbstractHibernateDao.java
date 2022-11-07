@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,6 +39,26 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         session.close();
         return record;
     }
+
+    public List<T> findInRange(int offset, int max){
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(clazz);
+        Root<T> rootEntry = cq.from(clazz);
+        CriteriaQuery<T> all = cq.select(rootEntry);
+
+        TypedQuery<T> typedQuery = session.createQuery(all);
+        typedQuery.setFirstResult(offset);
+        typedQuery.setMaxResults(max);
+        List<T> resultList = typedQuery.getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return resultList;
+
+
+    }
+
 
     public List<T> findAll() {
         Session session = getCurrentSession();
