@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "DepartmentManagerDashboard", value = "/dashboard/department-manager")
+@WebServlet(name = "DepartmentManagerDashboard", value = "/dashboard/department-manager/*")
 public class DepartmentManagerDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,10 +25,33 @@ public class DepartmentManagerDashboard extends HttpServlet {
             return;
         }
 
+        // get filter params
+        String[] queryParams = request.getRequestURI().split("/");
+
+        //      - check if url parameters is valid
+        int pageNumber = 0;
+
+        if(queryParams.length > 4 ){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        //      - check if pageNumber parameter is an int
+        try{
+            if(queryParams.length == 4){
+                pageNumber = Integer.parseInt(queryParams[3]);
+            }
+        }catch(NumberFormatException exception){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
         DepartmentManager logged = (DepartmentManager) request.getSession().getAttribute("user");
         PromotionDao promotionDao = new PromotionDao();
         List<Promotion> promotions = promotionDao.findAll();
-        promotions = promotions.stream().filter(promotion -> promotion.getDepartment().getId().equals(logged.getDepartment().getId()))
+        promotions = promotions
+                .stream()
+                .filter(promotion -> promotion.getDepartment().getId().equals(logged.getDepartment().getId()))
                 .collect(Collectors.toList());
 
         List<Promotion> acceptedPromotions      = promotions.stream().filter(promotion -> promotion.getStatus().equals("accepted")).collect(Collectors.toList());
