@@ -24,7 +24,7 @@ public class AdminDashboard extends HttpServlet {
 
         //      - check if url parameters is valid
         int pageNumber = 0;
-        int rowsPerPage = 10;
+        int rowsPerPage = 8;
 
         if(queryParams.length > 5 || queryParams.length == 3){
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -73,31 +73,36 @@ public class AdminDashboard extends HttpServlet {
 
 
 
+        CenterDao centerDao = new CenterDao();
+        DepartmentDao departmentDao = new DepartmentDao();
+
+        List<Center> centers = centerDao.findAll();
+        List<Department> departments = departmentDao.findAll();
+
+        request.setAttribute("centers", centers);
+        request.setAttribute("departments", departments);
+
+        int offset = pageNumber*rowsPerPage;
+        int max = offset + rowsPerPage;
+
 
         // redirect to the appropriate chosen page type with chosen page number
         switch (queryParams[3]) {
             case "managers" -> {
                 DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
-                List<DepartmentManager> departmentManagers = departmentManagerDao.findInRange(pageNumber + 1, (pageNumber + 1)*rowsPerPage);
+                List<DepartmentManager> departmentManagers = departmentManagerDao.findInRange(offset, max);
                 request.setAttribute("dataType", "departmentManagers");
                 request.setAttribute("departmentManagers", departmentManagers);
                 request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
             }
             case "promotions" -> {
                 PromotionDao promotionDao = new PromotionDao();
-                List<Promotion> promotions = promotionDao.findInRange(pageNumber + 1, (pageNumber + 1)*rowsPerPage);
+                List<Promotion> promotions = promotionDao.findInRange(offset, max);
                 promotions = promotions.stream()
                         .filter(promotion -> Objects.equals(promotion.getCenter().getId(), logged.getCenter().getId()))
                         .collect(Collectors.toList());
                 request.setAttribute("dataType", "promotions");
                 request.setAttribute("promotions", promotions);
-                request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
-            }
-            case "departments" -> {
-                DepartmentDao departmentDao = new DepartmentDao();
-                List<Department> departments = departmentDao.findAll();
-                request.setAttribute("dataType", "departments");
-                request.setAttribute("departments", departments);
                 request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
             }
         }
@@ -116,7 +121,7 @@ public class AdminDashboard extends HttpServlet {
             String startDate = request.getParameter("start-date");
             String endDate = request.getParameter("end-date");
             String description = request.getParameter("description");
-            Integer percentage = Integer.parseInt(request.getParameter("percentage"));
+            int percentage = Integer.parseInt(request.getParameter("percentage"));
             if(percentage > 50){
                 request.setAttribute("error", "la promotion ne doit pas dépasser 50%");
                 doGet(request, response);

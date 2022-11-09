@@ -17,113 +17,121 @@
 
 <div class="container p-6 h-full overflow-hidden">
 
-<%--    <div class="flex max-h-6/12 flex-col w-11/12 my-10 mx-auto">--%>
 
+    <c:choose>
+        <c:when test="${dataType == 'promotions'}">
+            <div class="flex flex-col max-h-6/12 w-11/12 my-10 mx-auto">
 
+                <div class="my-4 flex flex-row justify-between">
+                    <h1 class="bold text-xl font-bold">Promotions</h1>
+                    <button @click="popupOpen = true" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
+                        <img class="w-4 h-4 mr-2" src="${pageContext.request.contextPath}/assets/images/ant-design_plus-circle-outlined.svg" alt="">
+                        Ajouter Promotion
+                    </button>
+                </div>
 
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow h-full border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full  divide-y divide-gray-200">
+                                <thead class="w-full mb-8 bg-gray-50 ">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Percentage</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">status</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
 
-<%--        <h1 class="my-4 bold text-xl font-bold">Department Managers : </h1>--%>
+                                <c:forEach items="${promotions}" var="promotion" >
+                                    <tr>
+                                        <td class="px-6 py-2 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900"> <c:out value="${promotion.getDepartment().getName()}" /> </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-2 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">From : <c:out value="${promotion.getStartDate()}" /></div>
+                                            <div class="text-sm text-gray-900">To : <c:out value="${promotion.getEndDate()}" /></div>
+                                        </td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500"><c:out value="${promotion.getPercentage()}" />%</td>
+                                        <td class="px-6 py-2 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> <c:out value="${promotion.getStatus()}" /> </span>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
 
-<%--        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">--%>
-<%--            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">--%>
-<%--                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">--%>
-<%--                    <table class="min-w-full h-9/12 overflow-scroll divide-y divide-gray-200">--%>
-<%--                        <thead class="bg-gray-50">--%>
-<%--                        <tr>--%>
-
-<%--                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>--%>
-<%--                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Center</th>--%>
-<%--                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>--%>
-<%--                            <th scope="col" class="relative px-6 py-3">--%>
-<%--                                <span class="sr-only">Edit</span>--%>
-<%--                            </th>--%>
-<%--                        </tr>--%>
-<%--                        </thead>--%>
-<%--                        <tbody class="bg-white divide-y divide-gray-200">--%>
-
-<%--                        <c:forEach items="${departmentManagers}" var="departmentManager" >--%>
-<%--                            <tr>--%>
-<%--                                <td class="px-6 py-4 whitespace-nowrap">--%>
-<%--                                    <div class="flex items-center">--%>
-<%--                                        <div class="flex-shrink-0 h-10 w-10">--%>
-<%--                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">--%>
-<%--                                        </div>--%>
-<%--                                        <div class="ml-4">--%>
-<%--                                            <div class="text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /> </div>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-<%--                                </td>--%>
-<%--                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>--%>
-<%--                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>--%>
-<%--                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">--%>
-<%--                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>--%>
-<%--                                </td>--%>
-<%--                            </tr>--%>
-<%--                        </c:forEach>--%>
-
-
-
-
-<%--                        <!-- More people... -->--%>
-<%--                        </tbody>--%>
-<%--                    </table>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-    <div class="flex flex-col max-h-6/12 w-11/12 my-10 mx-auto">
-
-        <div class="my-4 flex flex-row justify-between">
-            <h1 class="bold text-xl font-bold">Promotions</h1>
-            <button @click="popupOpen = true" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
-                <img class="w-4 h-4 mr-2" src="${pageContext.request.contextPath}/assets/images/ant-design_plus-circle-outlined.svg" alt="">
-                Ajouter Promotion
-            </button>
-        </div>
-
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="shadow h-full border-b border-gray-200 sm:rounded-lg">
-                    <table class="min-w-full  divide-y divide-gray-200">
-                        <thead class="w-full mb-8 bg-gray-50 ">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Percentage</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">status</th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-
-                        <c:forEach items="${promotions}" var="promotion" >
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900"> <c:out value="${promotion.getDepartment().getName()}" /> </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">From : <c:out value="${promotion.getStartDate()}" /></div>
-                                <div class="text-sm text-gray-900">To : <c:out value="${promotion.getEndDate()}" /></div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${promotion.getPercentage()}" />%</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> <c:out value="${promotion.getStatus()}" /> </span>
-                            </td>
-                        </tr>
-                        </c:forEach>
-
-                        <!-- More people... -->
-                        </tbody>
-                    </table>
+                                <!-- More people... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-</div>
+            </div>
+        </c:when>
+
+        <c:when test="${dataType == 'managers'}">
+            <div class="flex max-h-6/12 flex-col w-11/12 my-10 mx-auto">
+
+                <h1 class="my-4 bold text-xl font-bold">Department Managers : </h1>
+
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full h-9/12 overflow-scroll divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Center</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
+                                    <th scope="col" class="relative px-6 py-3">
+                                        <span class="sr-only">Edit</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+
+                                <c:forEach items="${departmentManagers}" var="departmentManager" >
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /> </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+
+
+
+
+                                <!-- More people... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </c:when>
+
+    </c:choose>
+
 
 <%--<c:if test="${error != null}">--%>
 <%--    <h4 class="text-red-500 font-bold w-full text-center">--%>
