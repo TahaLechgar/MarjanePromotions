@@ -13,10 +13,42 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "AdminDashboard", value = "/dashboard/admin")
+@WebServlet(name = "AdminDashboard", value = "/dashboard/admin/*")
 public class AdminDashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // check if the route is correct
+
+        String[] queryParams = request.getRequestURI().split("/");
+
+        //      - check if url parameters is valid
+        int pageNumber = 0;
+        int rowsPerPage = 10;
+
+        if(queryParams.length > 5 || queryParams.length == 3){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        // check if the third argument of the request is valid
+        if(!queryParams[3].equals("managers") && !queryParams[3].equals("promotions") && !queryParams[3].equals("departments")){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        //      - check if pageNumber parameter is an int
+        try{
+            if(queryParams.length == 5){
+                pageNumber = Integer.parseInt(queryParams[4]);
+            }
+        }catch(NumberFormatException exception){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+
+        // check if user is authenticated as admin
         if(request.getSession().getAttribute("userType") == null){
             response.sendRedirect("/login/admin");
             return;
@@ -36,26 +68,40 @@ public class AdminDashboard extends HttpServlet {
             return;
         }
 
+        // get instance of the logged admin
         Admin logged = (Admin) request.getSession().getAttribute("user");
 
-        CenterDao centerDao = new CenterDao();
-        DepartmentDao departmentDao = new DepartmentDao();
 
-        List<Center> centers = centerDao.findAll();
-        List<Department> departments = departmentDao.findAll();
 
-        DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
-        List<DepartmentManager> departmentManagers = departmentManagerDao.findAll();
-        PromotionDao promotionDao = new PromotionDao();
-        List<Promotion> promotions = promotionDao.findAll();
-        promotions = promotions.stream().filter(promotion -> Objects.equals(promotion.getCenter().getId(), logged.getCenter().getId())).collect(Collectors.toList());
 
-        request.setAttribute("departmentManagers", departmentManagers);
-        request.setAttribute("promotions", promotions);
-        request.setAttribute("centers", centers);
-        request.setAttribute("departments", departments);
+        // redirect to the appropriate chosen page type with chosen page number
+        switch (queryParams[3]) {
+            case "managers" -> {
+                DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
+                List<DepartmentManager> departmentManagers = departmentManagerDao.findInRange(pageNumber + 1, (pageNumber + 1)*rowsPerPage);
+                request.setAttribute("dataType", "departmentManagers");
+                request.setAttribute("departmentManagers", departmentManagers);
+                request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
+            }
+            case "promotions" -> {
+                PromotionDao promotionDao = new PromotionDao();
+                List<Promotion> promotions = promotionDao.findInRange(pageNumber + 1, (pageNumber + 1)*rowsPerPage);
+                promotions = promotions.stream()
+                        .filter(promotion -> Objects.equals(promotion.getCenter().getId(), logged.getCenter().getId()))
+                        .collect(Collectors.toList());
+                request.setAttribute("dataType", "promotions");
+                request.setAttribute("promotions", promotions);
+                request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
+            }
+            case "departments" -> {
+                DepartmentDao departmentDao = new DepartmentDao();
+                List<Department> departments = departmentDao.findAll();
+                request.setAttribute("dataType", "departments");
+                request.setAttribute("departments", departments);
+                request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
+            }
+        }
 
-        request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
     }
 
     @Override
