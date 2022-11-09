@@ -5,6 +5,11 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
+
+
+
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -38,6 +43,19 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         session.getTransaction().commit();
         session.close();
         return record;
+    }
+
+    public long count(final long id) {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        criteria.select(builder.count(criteria.from(clazz)));
+        TypedQuery<Long> query = session.createQuery(criteria);
+        long count = query.getSingleResult();
+        session.getTransaction().commit();
+        session.close();
+        return count;
     }
 
     public List<T> findInRange(int offset, int max){
