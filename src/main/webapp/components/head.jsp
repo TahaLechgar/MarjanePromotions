@@ -11,4 +11,4 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.3.5/dist/alpine.min.js" defer ></script>
 
 </head>
-<body x-data="{open: false, popupOpen: false, managerPopup: false, actionType: 'add-manager', managerEmail: ''}">
+<body x-data="{open: false, popupOpen: false, managerPopup: false, actionType: 'add-manager', managerEmail: '', managerId: ''}">

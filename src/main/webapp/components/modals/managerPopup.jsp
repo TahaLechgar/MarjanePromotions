@@ -11,11 +11,11 @@
 <div @click.away="managerPopup = false" class="absolute left-1/4 top-0 left-0 h-6/12 top-1/4 w-6/12 mt-10 sm:mt-0">
     <div class=" mx-auto w-full flex justify-center">
         <div class="mt-5 w-full md:mt-0 md:col-span-2">
-            <form action="${pageContext.request.contextPath}/dashboard/admin" method="POST">
+            <form action="${pageContext.request.contextPath}/dashboard/admin" method="post">
                 <div class="shadow overflow-hidden sm:rounded-md">
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <div class="grid grid-cols-6 gap-6">
-                            <input type="hidden" :name="actionType">
+                            <input type="hidden" :name="actionType" :value="managerId">
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email :</label>

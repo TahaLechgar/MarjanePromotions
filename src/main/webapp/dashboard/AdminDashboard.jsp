@@ -115,7 +115,7 @@
 
                                 <c:forEach items="${departmentManagers}" var="departmentManager" >
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-2 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10">
                                                     <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
@@ -125,10 +125,10 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getCenter().getCity()}" /></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getDepartment().getName()}" /></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a @click="managerPopup = true; actionType = 'edit-manager'; managerEmail = '<c:out value="${departmentManager.getEmail()}" />' " href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getCenter().getCity()}" /></td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getDepartment().getName()}" /></td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                            <a @click="managerPopup = true; actionType = 'edit-manager';managerId = '<c:out value="${departmentManager.getId()}" />' ; managerEmail = '<c:out value="${departmentManager.getEmail()}" />' " href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -161,6 +161,8 @@
 <template x-if="managerPopup">
     <jsp:include page="../components/modals/managerPopup.jsp"/>
 </template>
+
+
 
 
 

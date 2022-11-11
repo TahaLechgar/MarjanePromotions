@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "AdminDashboard", value = "/dashboard/admin/*")
@@ -164,7 +165,53 @@ public class AdminDashboard extends HttpServlet {
             promotion = promotionDao.create(promotion);
 
             doGet(request, response);
+            return;
+        }
+        if(request.getParameter("add-manager") != null) {
+            DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
+            CenterDao centerDao = new CenterDao();
+            DepartmentDao departmentDao = new DepartmentDao();
 
+            Admin logged = (Admin) request.getSession().getAttribute("user");
+
+
+            String email = request.getParameter("email");
+            int departmentId = Integer.parseInt(request.getParameter("manager-department"));
+
+            Center center = centerDao.findOne(logged.getCenter().getId());
+            Department department = departmentDao.findOne(departmentId);
+
+            DepartmentManager newDepartmentManager = new DepartmentManager();
+
+            newDepartmentManager.setDepartment(department);
+            newDepartmentManager.setCenter(center);
+            newDepartmentManager.setEmail(email);
+            String uniqueID = UUID.randomUUID().toString();
+            newDepartmentManager.setPassword(uniqueID);
+
+            departmentManagerDao.create(newDepartmentManager);
+            response.sendRedirect("/dashboard/admin/managers");
+
+            return;
+        }
+        if(request.getParameter("edit-manager") != null) {
+            DepartmentDao departmentDao = new DepartmentDao();
+            DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
+
+
+            String email = request.getParameter("email");
+            int departmentId = Integer.parseInt(request.getParameter("manager-department"));
+            int departmentManagerId = Integer.parseInt(request.getParameter("edit-manager"));
+
+            Department department = departmentDao.findOne(departmentId);
+
+            DepartmentManager departmentManager = departmentManagerDao.findOne(departmentManagerId);
+            departmentManager.setDepartment(department);
+            departmentManager.setEmail(email);
+
+            departmentManagerDao.update(departmentManager);
+
+            response.sendRedirect("/dashboard/admin/managers");
         }
     }
 
