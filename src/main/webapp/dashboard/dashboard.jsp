@@ -31,7 +31,7 @@
 
 <jsp:include page="../components/navbar.jsp" />
 
-<section class="dashboard w-full h-screen overflow-hidden flex bg-gray-100" >
+<section class="dashboard w-full h-screen overflow-hidden flex bg-blue-50" >
     <div class="side-bare w-2/12 h-auto mt-24 mb-4 ml-4 rounded-2xl bg-white flex flex-col justify-center items-end gap-10 ">
         <jsp:include page="../components/AdminDashboardLinks.jsp"/>
 

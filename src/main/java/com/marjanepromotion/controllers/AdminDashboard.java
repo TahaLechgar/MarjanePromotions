@@ -23,7 +23,7 @@ public class AdminDashboard extends HttpServlet {
         String[] queryParams = request.getRequestURI().split("/");
 
         //      - check if url parameters is valid
-        int pageNumber = 0;
+        int pageNumber = 1;
         int rowsPerPage = 8;
 
         if(queryParams.length > 5 || queryParams.length == 3){
@@ -41,6 +41,8 @@ public class AdminDashboard extends HttpServlet {
         try{
             if(queryParams.length == 5){
                 pageNumber = Integer.parseInt(queryParams[4]);
+                if(pageNumber <= 0)
+                    throw new NumberFormatException();
             }
         }catch(NumberFormatException exception){
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -82,7 +84,7 @@ public class AdminDashboard extends HttpServlet {
         request.setAttribute("centers", centers);
         request.setAttribute("departments", departments);
 
-        int offset = pageNumber*rowsPerPage;
+        int offset = (pageNumber-1)*rowsPerPage;
         int max = offset + rowsPerPage;
 
 
@@ -91,16 +93,33 @@ public class AdminDashboard extends HttpServlet {
             case "managers" -> {
                 DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
                 List<DepartmentManager> departmentManagers = departmentManagerDao.findInRange(offset, max);
+                int recordsCount = departmentManagers.size();
+                int totalOfPages = recordsCount/rowsPerPage + 1;
+                if(pageNumber == totalOfPages){
+                    max = Math.min(max, departmentManagers.size());
+                }
+                departmentManagers = departmentManagers.subList(offset, max);
+                request.setAttribute("totalOfPages", totalOfPages);
+                request.setAttribute("currentPage", pageNumber);
                 request.setAttribute("dataType", "departmentManagers");
                 request.setAttribute("departmentManagers", departmentManagers);
                 request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
             }
             case "promotions" -> {
                 PromotionDao promotionDao = new PromotionDao();
-                List<Promotion> promotions = promotionDao.findInRange(offset, max);
+                List<Promotion> promotions = promotionDao.findAll();
                 promotions = promotions.stream()
                         .filter(promotion -> Objects.equals(promotion.getCenter().getId(), logged.getCenter().getId()))
                         .collect(Collectors.toList());
+
+                int recordsCount = promotions.size();
+                int totalOfPages = recordsCount/rowsPerPage + 1;
+                if(pageNumber == totalOfPages){
+                    max = Math.min(max, promotions.size());
+                }
+                promotions = promotions.subList(offset, max);
+                request.setAttribute("totalOfPages", totalOfPages);
+                request.setAttribute("currentPage", pageNumber);
                 request.setAttribute("dataType", "promotions");
                 request.setAttribute("promotions", promotions);
                 request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);

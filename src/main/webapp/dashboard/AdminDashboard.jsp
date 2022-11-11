@@ -30,7 +30,7 @@
                     </button>
                 </div>
 
-                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow h-full border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full  divide-y divide-gray-200">
@@ -70,20 +70,36 @@
                         </div>
                     </div>
                 </div>
+                <c:if test="${totalOfPages > 1}">
+                    <nav aria-label="Page navigation">
+                        <ul class="inline-flex">
+                            <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">Prev</button></li>
+                            <c:forEach var="i" begin="1" end="${totalOfPages}" step="1">
+                                <li><a href="${pageContext.request.contextPath}/dashboard/admin/promotions/<c:out value="${i}" />" class="flex items-center h-10 px-5 align-middle <c:if test="${currentPage != i}"><c:out value="text-indigo-600" /> </c:if> transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100 <c:if test="${currentPage == i}"><c:out value="text-white bg-blue-800 hover:bg-blue-800" /> </c:if>" ><c:out value="${ i }" /></a></li>
+                            </c:forEach>
+                            <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100">Next</button></li>
+                        </ul>
+                    </nav>
+                </c:if>
             </div>
 
             </div>
         </c:when>
 
-        <c:when test="${dataType == 'managers'}">
+        <c:when test="${dataType == 'departmentManagers'}">
             <div class="flex max-h-6/12 flex-col w-11/12 my-10 mx-auto">
 
-                <h1 class="my-4 bold text-xl font-bold">Department Managers : </h1>
-
+                <div class="my-4 flex flex-row justify-between">
+                    <h1 class="bold text-xl font-bold">Department managers</h1>
+                    <button @click="popupOpen = true" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
+                        <img class="w-4 h-4 mr-2" src="${pageContext.request.contextPath}/assets/images/ant-design_plus-circle-outlined.svg" alt="">
+                        Ajouter Manager
+                    </button>
+                </div>
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <table class="min-w-full h-9/12 overflow-scroll divide-y divide-gray-200">
+                            <table class="min-w-full h-9/12  divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                 <tr>
 
@@ -116,10 +132,6 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-
-
-
-
                                 <!-- More people... -->
                                 </tbody>
                             </table>

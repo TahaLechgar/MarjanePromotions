@@ -45,7 +45,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         return record;
     }
 
-    public long count(final long id) {
+    public long count() {
         Session session = getCurrentSession();
         session.beginTransaction();
         CriteriaBuilder builder = session.getCriteriaBuilder();
