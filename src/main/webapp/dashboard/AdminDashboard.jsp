@@ -91,7 +91,7 @@
 
                 <div class="my-4 flex flex-row justify-between">
                     <h1 class="bold text-xl font-bold">Department managers</h1>
-                    <button @click="popupOpen = true" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
+                    <button @click="managerPopup = true; actionType = 'add-manager'; managerEmail = ''" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
                         <img class="w-4 h-4 mr-2" src="${pageContext.request.contextPath}/assets/images/ant-design_plus-circle-outlined.svg" alt="">
                         Ajouter Manager
                     </button>
@@ -125,10 +125,10 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getEmail()}" /></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getCenter().getCity()}" /></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><c:out value="${departmentManager.getDepartment().getName()}" /></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            <a @click="managerPopup = true; actionType = 'edit-manager'; managerEmail = '<c:out value="${departmentManager.getEmail()}" />' " href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -151,7 +151,7 @@
 <%--    </h4>--%>
 <%--</c:if>--%>
 
-<template x-if="popupOpen">
+<template x-if="popupOpen || managerPopup">
     <div class="popup-overlay absolute top-0 left-0 w-screen h-screen bg-gray-900  opacity-50"></div>
 </template>
 <template x-if="popupOpen">
@@ -203,6 +203,41 @@
                             </div>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Ajouter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template x-if="managerPopup">
+    <div @click.away="managerPopup = false" class="absolute left-1/4 top-0 left-0 h-6/12 top-1/4 w-6/12 mt-10 sm:mt-0">
+        <div class=" mx-auto w-full flex justify-center">
+            <div class="mt-5 w-full md:mt-0 md:col-span-2">
+                <form action="${pageContext.request.contextPath}/dashboard/admin" method="POST">
+                    <div class="shadow overflow-hidden sm:rounded-md">
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <div class="grid grid-cols-6 gap-6">
+                                <input type="hidden" :name="actionType">
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="street-address" class="block text-sm font-medium text-gray-700">Email :</label>
+                                    <input type="text" name="email" id="email" :value="managerEmail" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="Department" class="block text-sm font-medium text-gray-700">Department :</label>
+                                    <select id="manager-department" name="manager-department"  class="mt-1 p-2 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <c:forEach items="${departments}" var="department">
+                                            <option value="${department.getId()}">${department.getName()}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                             <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
                         </div>
                     </div>
@@ -211,6 +246,7 @@
         </div>
     </div>
 </template>
+
 
 
 <script>
