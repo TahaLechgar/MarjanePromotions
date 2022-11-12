@@ -13,7 +13,7 @@
 
 <div x-show="open" class="body__overlay"></div>
 
-<nav class="navbar ">
+<nav class="navbar shadow">
     <div class="navbar__container">
         <div class="navbar__logo">
             <img src="${pageContext.request.contextPath}/assets/images/logo_marjane.svg" alt="logo">

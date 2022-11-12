@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -82,8 +83,15 @@ public class AdminDashboard extends HttpServlet {
         List<Center> centers = centerDao.findAll();
         List<Department> departments = departmentDao.findAll();
 
+        ArrayList<String> links = new ArrayList<>();
+        links.add("promotions");
+        links.add("managers");
+
+
         request.setAttribute("centers", centers);
         request.setAttribute("departments", departments);
+        request.setAttribute("links", links);
+
 
         int offset = (pageNumber-1)*rowsPerPage;
         int max = offset + rowsPerPage;
@@ -93,7 +101,11 @@ public class AdminDashboard extends HttpServlet {
         switch (queryParams[3]) {
             case "managers" -> {
                 DepartmentManagerDao departmentManagerDao = new DepartmentManagerDao();
-                List<DepartmentManager> departmentManagers = departmentManagerDao.findInRange(offset, max);
+                List<DepartmentManager> departmentManagers = departmentManagerDao.findAll();
+                departmentManagers = departmentManagers.stream()
+                        .filter(departmentManager -> Objects.equals(departmentManager.getCenter().getId(), logged.getCenter().getId()))
+                        .collect(Collectors.toList());
+
                 int recordsCount = departmentManagers.size();
                 int totalOfPages = recordsCount/rowsPerPage + 1;
                 if(pageNumber == totalOfPages){
@@ -102,10 +114,11 @@ public class AdminDashboard extends HttpServlet {
                 departmentManagers = departmentManagers.subList(offset, max);
                 request.setAttribute("totalOfPages", totalOfPages);
                 request.setAttribute("currentPage", pageNumber);
-                request.setAttribute("dataType", "departmentManagers");
+                request.setAttribute("dataType", "managers");
                 request.setAttribute("departmentManagers", departmentManagers);
                 request.getRequestDispatcher("/dashboard/dashboard.jsp").forward(request, response);
             }
+
             case "promotions" -> {
                 PromotionDao promotionDao = new PromotionDao();
                 List<Promotion> promotions = promotionDao.findAll();

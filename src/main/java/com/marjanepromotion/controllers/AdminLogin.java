@@ -47,7 +47,7 @@ public class AdminLogin extends HttpServlet {
             session.setAttribute("userType", "admin");
             Admin logged = adminDao.findOne(adminID);
             session.setAttribute("user", logged);
-            response.sendRedirect("/dashboard/admin");
+            response.sendRedirect("/dashboard/admin/promotions");
         }else
             response.getWriter().println("Wrong credentials");
     }

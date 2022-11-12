@@ -36,7 +36,7 @@
                             <table class="min-w-full  divide-y divide-gray-200">
                                 <thead class="w-full mb-8 bg-gray-50 ">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Percentage</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">status</th>
@@ -86,7 +86,7 @@
             </div>
         </c:when>
 
-        <c:when test="${dataType == 'departmentManagers'}">
+        <c:when test="${dataType == 'managers'}">
             <div class="flex max-h-6/12 flex-col w-11/12 my-10 mx-auto">
 
                 <div class="my-4 flex flex-row justify-between">
@@ -96,7 +96,7 @@
                         Ajouter Manager
                     </button>
                 </div>
-                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="min-w-full h-9/12  divide-y divide-gray-200">
@@ -138,6 +138,17 @@
                         </div>
                     </div>
                 </div>
+                <c:if test="${totalOfPages > 1}">
+                    <nav aria-label="Page navigation">
+                        <ul class="inline-flex">
+                            <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">Prev</button></li>
+                            <c:forEach var="i" begin="1" end="${totalOfPages}" step="1">
+                                <li><a href="${pageContext.request.contextPath}/dashboard/admin/managers/<c:out value="${i}" />" class="flex items-center h-10 px-5 align-middle <c:if test="${currentPage != i}"><c:out value="text-indigo-600" /> </c:if> transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100 <c:if test="${currentPage == i}"><c:out value="text-white bg-blue-800 hover:bg-blue-800" /> </c:if>" ><c:out value="${ i }" /></a></li>
+                            </c:forEach>
+                            <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100">Next</button></li>
+                        </ul>
+                    </nav>
+                </c:if>
             </div>
 
         </c:when>
