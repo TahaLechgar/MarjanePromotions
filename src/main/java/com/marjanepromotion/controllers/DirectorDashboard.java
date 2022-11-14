@@ -72,6 +72,8 @@ public class DirectorDashboard extends HttpServlet {
         request.setAttribute("links", links);
         request.setAttribute("dashboardType", "director");
 
+        int offset = (pageNumber-1)*rowsPerPage;
+        int max = offset + rowsPerPage;
 
         Director logged = (Director) request.getSession().getAttribute("user");
         PromotionDao promotionDao = new PromotionDao();
@@ -84,6 +86,14 @@ public class DirectorDashboard extends HttpServlet {
 
             case "admins" -> {
                 List<Admin> admins = adminDao.findAll();
+                int recordsCount = admins.size();
+                int totalOfPages = recordsCount/rowsPerPage + 1;
+                if(pageNumber == totalOfPages){
+                    max = Math.min(max, admins.size());
+                }
+                admins = admins.subList(offset, max);
+                request.setAttribute("totalOfPages", totalOfPages);
+                request.setAttribute("currentPage", pageNumber);
                 request.setAttribute("admins", admins);
                 request.setAttribute("dataType", "admins");
             }
@@ -105,6 +115,14 @@ public class DirectorDashboard extends HttpServlet {
         }
 
         if(!queryParams[3].equals("admins")){
+            int recordsCount = promotions.size();
+            int totalOfPages = recordsCount/rowsPerPage + 1;
+            if(pageNumber == totalOfPages){
+                max = Math.min(max, promotions.size());
+            }
+            promotions = promotions.subList(offset, max);
+            request.setAttribute("totalOfPages", totalOfPages);
+            request.setAttribute("currentPage", pageNumber);
             request.setAttribute("promotions",promotions);
         }
 

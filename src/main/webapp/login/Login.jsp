@@ -37,7 +37,7 @@
 
     <div class="main__login">
         <form action="${pageContext.request.contextPath}/login/<%= request.getAttribute("userType") %>" method="post" class="main__form">
-            <legend><%=request.getAttribute("userType")%> Login</legend>
+            <legend class="uppercase"><%=request.getAttribute("userType")%> login</legend>
             <p class="description">Hey, Enter your details to get sign in to your account</p>
             <div class="main__inputs">
                 <input type="email" name="email" placeholder="Enter Email">
@@ -49,8 +49,8 @@
 
             <p class="signin">Or Sing in with</p>
             <div class="main__otherLogin">
-                <a href="#"> <img src="${pageContext.request.contextPath}/assets/images/dashicons_admin-users.svg" alt=""> Admin</a>
-                <a href="#"> <img src="${pageContext.request.contextPath}/assets/images/ri_admin-fill.svg" alt=""> Director</a>
+                <a href="${pageContext.request.contextPath}/login/<c:out value="${otherType1}"/>"> <img src="${pageContext.request.contextPath}/assets/images/dashicons_admin-users.svg" alt=""> <c:out value="${otherType1}"/></a>
+                <a href="${pageContext.request.contextPath}/login/<c:out value="${otherType2}"/>"> <img src="${pageContext.request.contextPath}/assets/images/ri_admin-fill.svg" alt=""> <c:out value="${otherType2}"/></a>
             </div>
         </form>
     </div>

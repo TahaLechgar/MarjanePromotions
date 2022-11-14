@@ -17,6 +17,8 @@ public class AdminLogin extends HttpServlet {
             return;
         }
         request.setAttribute("userType", "admin");
+        request.setAttribute("otherType1", "manager");
+        request.setAttribute("otherType2", "director");
         request.getRequestDispatcher("/login/Login.jsp").forward(request, response);
     }
 

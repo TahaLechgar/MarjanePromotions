@@ -64,17 +64,17 @@
                     </div>
                 </div>
             </div>
-<%--            <c:if test="${totalOfPages > 1}">--%>
-<%--                <nav aria-label="Page navigation">--%>
-<%--                    <ul class="inline-flex">--%>
-<%--                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">Prev</button></li>--%>
-<%--                        <c:forEach var="i" begin="1" end="${totalOfPages}" step="1">--%>
-<%--                            <li><a href="${pageContext.request.contextPath}/dashboard/admin/managers/<c:out value="${i}" />" class="flex items-center h-10 px-5 align-middle <c:if test="${currentPage != i}"><c:out value="text-indigo-600" /> </c:if> transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100 <c:if test="${currentPage == i}"><c:out value="text-white bg-blue-800 hover:bg-blue-800" /> </c:if>" ><c:out value="${ i }" /></a></li>--%>
-<%--                        </c:forEach>--%>
-<%--                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100">Next</button></li>--%>
-<%--                    </ul>--%>
-<%--                </nav>--%>
-<%--            </c:if>--%>
+            <c:if test="${totalOfPages > 1}">
+                <nav aria-label="Page navigation">
+                    <ul class="inline-flex">
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">Prev</button></li>
+                        <c:forEach var="i" begin="1" end="${totalOfPages}" step="1">
+                            <li><a href="${pageContext.request.contextPath}/dashboard/director/admins/<c:out value="${i}" />" class="flex items-center h-10 px-5 align-middle <c:if test="${currentPage != i}"><c:out value="text-indigo-600" /> </c:if> transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100 <c:if test="${currentPage == i}"><c:out value="text-white bg-blue-800 hover:bg-blue-800" /> </c:if>" ><c:out value="${ i }" /></a></li>
+                        </c:forEach>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100">Next</button></li>
+                    </ul>
+                </nav>
+            </c:if>
         </div>
 
     </c:when>
@@ -83,7 +83,7 @@
 
             <h1 class="my-6 bold text-xl font-bold"> <c:out value="${dataType}" /> promotions : </h1>
 
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="my-1 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full divide-y bg-gray-50 divide-gray-200">
@@ -124,6 +124,17 @@
                     </div>
                 </div>
             </div>
+            <c:if test="${totalOfPages > 1}">
+                <nav aria-label="Page navigation">
+                    <ul class="inline-flex">
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">Prev</button></li>
+                        <c:forEach var="i" begin="1" end="${totalOfPages}" step="1">
+                            <li><a href="${pageContext.request.contextPath}/dashboard/director/<c:out value="${dataType}" />/<c:out value="${i}" />" class="flex items-center h-10 px-5 align-middle <c:if test="${currentPage != i}"><c:out value="text-indigo-600" /> </c:if> transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100 <c:if test="${currentPage == i}"><c:out value="text-white bg-blue-800 hover:bg-blue-800" /> </c:if>" ><c:out value="${ i }" /></a></li>
+                        </c:forEach>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100">Next</button></li>
+                    </ul>
+                </nav>
+            </c:if>
         </div>
     </c:otherwise>
 </c:choose>

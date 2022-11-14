@@ -18,6 +18,8 @@ public class DirectorLogin extends HttpServlet {
             return;
         }
         request.setAttribute("userType", "director");
+        request.setAttribute("otherType1", "manager");
+        request.setAttribute("otherType2", "admin");
         request.getRequestDispatcher("/login/Login.jsp").forward(request, response);
     }
 
