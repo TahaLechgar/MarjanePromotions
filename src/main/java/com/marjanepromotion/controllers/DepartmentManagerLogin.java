@@ -10,7 +10,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "DepartmentManagerLogin", urlPatterns = {"/login/department-manager"})
+@WebServlet(name = "DepartmentManagerLogin", urlPatterns = {"/login/manager"})
 public class DepartmentManagerLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -18,7 +18,7 @@ public class DepartmentManagerLogin extends HttpServlet {
             response.sendRedirect("/dashboard/"+request.getSession().getAttribute("userType"));
             return;
         }
-        request.setAttribute("userType", "department-manager");
+        request.setAttribute("userType", "manager");
         request.getRequestDispatcher("/login/Login.jsp").forward(request, response);    }
 
 
@@ -48,8 +48,8 @@ public class DepartmentManagerLogin extends HttpServlet {
             HttpSession session = request.getSession();
             DepartmentManager logged = departmentManagerDao.findOne(departmentManagerID);
             session.setAttribute("user", logged);
-            session.setAttribute("userType", "department-manager");
-            response.sendRedirect("/dashboard/department-manager");
+            session.setAttribute("userType", "manager");
+            response.sendRedirect("/dashboard/manager/accepted");
         }else
             response.getWriter().println("Wrong credentials");
 

@@ -38,7 +38,17 @@
 
     </div>
     <div class="main w-9/12 h-full ">
-        <jsp:include page="AdminDashboard.jsp"/>
+        <c:choose>
+            <c:when test="${dashboardType == 'admin'}">
+                <jsp:include page="AdminDashboard.jsp"/>
+            </c:when>
+            <c:when test="${dashboardType == 'manager'}">
+                <jsp:include page="DepartmentManager.jsp"/>
+            </c:when>
+            <c:when test="${dashboardType == 'director'}">
+                <jsp:include page="DirectorDashboard.jsp"/>
+            </c:when>
+        </c:choose>
     </div>
 </section>
 

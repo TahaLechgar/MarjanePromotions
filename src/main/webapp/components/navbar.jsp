@@ -43,9 +43,21 @@
             <c:when test="${sessionScope.user != null}">
                 <div class="cursor-pointer left-menu w-full h-12 flex justify-center items-center">
                     <div class="container w-fit 2xl:min-w-2/12 lg:min-w-4/12 h-9/12  bg-gray-200 ml-auto flex flex-row justify-end items-center py-1 rounded-md px-4">
-                        <div class="flex flex-col text-sm justify-end items-center">
+                        <div class="flex flex-col text-sm justify-end items-start">
                             <p class="text-black  font-bold">Taha Lechgar</p>
-                            <p>Admin générale</p>
+                            <p>
+                                <c:choose>
+                                    <c:when test="${sessionScope.userType == 'manager'}">
+                                        Department Manager
+                                    </c:when>
+                                    <c:when test="${sessionScope.userType == 'admin'}">
+                                        Center Admin
+                                    </c:when>
+                                    <c:when test="${sessionScope.userType == 'director'}">
+                                        General Admin
+                                    </c:when>
+                                </c:choose>
+                            </p>
                         </div>
                         <div class="w-10 h-10 overflow-hidden rounded-full flex justify-center items-center border border-4 border-gray-500">
                             <img  class="object-fill w-11/12 h-11/12 " src="${pageContext.request.contextPath}/assets/images/profile-image.png" alt="profile-picture">

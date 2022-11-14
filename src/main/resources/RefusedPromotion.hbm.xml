@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.marjanepromotion.models.RefusedPromotion" table="refused_promotions" schema="public" catalog="MarjanePromo">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+            <generator class="increment"/>
+        </id>
+
+        <one-to-one name="promotion" class="com.marjanepromotion.models.Promotion"/>
+
+        <property name="reason">
+            <column name="reason" sql-type="text" not-null="true"/>
+        </property>
+
+    </class>
+</hibernate-mapping>

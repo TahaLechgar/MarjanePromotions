@@ -91,6 +91,7 @@ public class AdminDashboard extends HttpServlet {
         request.setAttribute("centers", centers);
         request.setAttribute("departments", departments);
         request.setAttribute("links", links);
+        request.setAttribute("dashboardType", "admin");
 
 
         int offset = (pageNumber-1)*rowsPerPage;

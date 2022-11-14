@@ -31,6 +31,6 @@ public class SessionUtil {
         if(sessionFactory == null){
             setUp();
         }
-        return sessionFactory.getCurrentSession();
+        return sessionFactory.openSession();
     }
 }
