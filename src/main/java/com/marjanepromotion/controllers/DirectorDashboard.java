@@ -11,6 +11,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +36,7 @@ public class DirectorDashboard extends HttpServlet {
         }
 
         // check if the forth argument of the request is valid
-        if(queryParams.length < 4 || !queryParams[3].equals("accepted") && !queryParams[3].equals("not-accepted") && !queryParams[3].equals("pending") && !queryParams[3].equals("admins")){
+        if(queryParams.length < 4 || !queryParams[3].equals("all") && !queryParams[3].equals("accepted") && !queryParams[3].equals("not-accepted") && !queryParams[3].equals("pending") && !queryParams[3].equals("admins")){
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
@@ -64,14 +66,21 @@ public class DirectorDashboard extends HttpServlet {
 
 
         ArrayList<String> links = new ArrayList<>();
+        links.add("all");
         links.add("accepted");
         links.add("pending");
         links.add("not-accepted");
         links.add("admins");
 
+
         request.setAttribute("links", links);
         request.setAttribute("dashboardType", "director");
 
+
+
+        if(queryParams[3].equals("all")){
+            rowsPerPage = 5;
+        }
         int offset = (pageNumber-1)*rowsPerPage;
         int max = offset + rowsPerPage;
 
@@ -83,6 +92,46 @@ public class DirectorDashboard extends HttpServlet {
 
 
         switch(queryParams[3]){
+
+            case "all" -> {
+
+                List<Promotion> lastMonthPromotions = promotions.stream()
+                        .filter(promotion -> LocalDate.now().minusMonths(1).isBefore(promotion.getStartDate()))
+                        .collect(Collectors.toList());
+
+                long count = lastMonthPromotions.size();
+
+                long acceptedCount = lastMonthPromotions.stream()
+                        .filter(promotion -> promotion.getStatus().equals("accepted"))
+                        .count();
+
+                double acceptedPercentage = ( acceptedCount/ (double) count ) * 100;
+
+                long refusedCount = lastMonthPromotions.stream()
+                        .filter(promotion -> promotion.getStatus().equals("refused"))
+                        .count();
+
+                double refusedPercentage = ( refusedCount/ (double) count ) * 100;
+
+                long notCheckedCount = lastMonthPromotions.stream()
+                        .filter(promotion -> promotion.getStatus().equals("not-checked"))
+                        .count();
+
+                double notCheckedPercentage = ( notCheckedCount/ (double) count ) * 100;
+
+
+                acceptedPercentage      = Double.parseDouble(new DecimalFormat("##.##").format(acceptedPercentage));
+                refusedPercentage       = Double.parseDouble(new DecimalFormat("##.##").format(refusedPercentage));
+                notCheckedPercentage    = Double.parseDouble(new DecimalFormat("##.##").format(notCheckedPercentage));
+
+
+                request.setAttribute("dataType", "all");
+                request.setAttribute("acceptedPercentage", acceptedPercentage);
+                request.setAttribute("refusedPercentage", refusedPercentage);
+                request.setAttribute("notCheckedPercentage", notCheckedPercentage);
+                request.setAttribute("lastMonthPromotionsCount", count);
+
+            }
 
             case "admins" -> {
                 List<Admin> admins = adminDao.findAll();

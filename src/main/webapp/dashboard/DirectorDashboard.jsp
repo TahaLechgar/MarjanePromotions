@@ -78,8 +78,37 @@
         </div>
 
     </c:when>
+
+
     <c:otherwise>
+
+
         <div class="flex flex-col w-11/12 my-10 mx-auto">
+            <c:if test="${dataType == 'all'}">
+                <div class="my-1">
+                    <h3 class="text-lg font-bold leading-6 text-gray-900">Last 30 days : </h3>
+                    <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
+                        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                            <dt class="text-sm font-medium text-gray-500 truncate">Total Promotions</dt>
+                            <dd class="mt-1 text-3xl font-semibold text-gray-900"><c:out value="${lastMonthPromotionsCount}" /></dd>
+                        </div>
+
+                        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                            <dt class="text-sm font-medium text-gray-500 truncate">Avg. Accepted</dt>
+                            <dd class="mt-1 text-3xl font-semibold text-gray-900"><c:out value="${acceptedPercentage}" />%</dd>
+                        </div>
+
+                        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                            <dt class="text-sm font-medium text-gray-500 truncate">Avg. Refused</dt>
+                            <dd class="mt-1 text-3xl font-semibold text-gray-900"><c:out value="${refusedPercentage}" />%</dd>
+                        </div>
+                        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                            <dt class="text-sm font-medium text-gray-500 truncate">Avg. Not-checked</dt>
+                            <dd class="mt-1 text-3xl font-semibold text-gray-900"><c:out value="${notCheckedPercentage}" />%</dd>
+                        </div>
+                    </dl>
+                </div>
+            </c:if>
 
             <h1 class="my-6 bold text-xl font-bold"> <c:out value="${dataType}" /> promotions : </h1>
 

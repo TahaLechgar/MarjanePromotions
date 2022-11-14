@@ -41,10 +41,10 @@
                 </button>
             </c:when>
             <c:when test="${sessionScope.user != null}">
-                <div class="cursor-pointer left-menu w-full h-12 flex justify-center items-center">
-                    <div class="container w-fit 2xl:min-w-2/12 lg:min-w-4/12 h-9/12  bg-gray-200 ml-auto flex flex-row justify-end items-center py-1 rounded-md px-4">
+                <div x-data="{logout: false}"   class=" select-none left-menu w-full h-12 flex justify-center items-center">
+                    <div @click="logout = !logout" class="container cursor-pointer relative w-fit 2xl:min-w-2/12 lg:min-w-4/12 h-9/12  bg-gray-200 ml-auto flex flex-row justify-end items-center py-1 rounded-md px-4">
                         <div class="flex flex-col text-sm justify-end items-start">
-                            <p class="text-black  font-bold">Taha Lechgar</p>
+                            <p class="text-black font-bold">Taha Lechgar</p>
                             <p>
                                 <c:choose>
                                     <c:when test="${sessionScope.userType == 'manager'}">
@@ -62,6 +62,11 @@
                         <div class="w-10 h-10 overflow-hidden rounded-full flex justify-center items-center border border-4 border-gray-500">
                             <img  class="object-fill w-11/12 h-11/12 " src="${pageContext.request.contextPath}/assets/images/profile-image.png" alt="profile-picture">
                         </div>
+                        <div x-show="logout" class="absolute top-12 mt-1 text-black hover:text-blue-600 rounded-md shadow left-0 w-full h-12 bg-gray-50 flex justify-start items-center px-4">
+                            <form action="${pageContext.request.contextPath}/logout" method="post">
+                                <button type="submit">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </c:when>
@@ -69,3 +74,5 @@
 
     </div>
 </nav>
+
+
