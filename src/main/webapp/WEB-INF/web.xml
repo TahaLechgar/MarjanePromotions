@@ -7,4 +7,5 @@
     <listener>
         <listener-class>com.marjanepromotion.contextListener.MyServletContextListener</listener-class>
     </listener>
+
 </web-app>

@@ -3,6 +3,7 @@ package com.marjanepromotion.controllers;
 import com.marjanepromotion.dao.*;
 import com.marjanepromotion.dao.DepartmentManagerDao;
 import com.marjanepromotion.models.*;
+import com.marjanepromotion.util.MailSender;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -204,8 +205,9 @@ public class AdminDashboard extends HttpServlet {
             newDepartmentManager.setPassword(uniqueID);
 
             departmentManagerDao.create(newDepartmentManager);
-            response.sendRedirect("/dashboard/admin/managers");
+            MailSender.sendMail(email, "Account created successfully");
 
+            response.sendRedirect("/dashboard/admin/managers");
             return;
         }
         if(request.getParameter("edit-manager") != null) {
