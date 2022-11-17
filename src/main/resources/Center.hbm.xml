@@ -12,7 +12,7 @@
         <property name="city">
             <column name="city" sql-type="varchar"/>
         </property>
-        <one-to-one name="admins"  class="com.marjanepromotion.models.Admin"/>
+<!--        <one-to-one name="admins"  class="com.marjanepromotion.models.Admin"/>-->
 
         <set name="departmentManagers" table="department_manager"
              inverse="true" lazy="true" fetch="select">
@@ -20,6 +20,13 @@
                 <column name="department" not-null="true" />
             </key>
             <one-to-many class="com.marjanepromotion.models.DepartmentManager" />
+        </set>
+        <set name="admins" table="admin"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="center" not-null="true" />
+            </key>
+            <one-to-many class="com.marjanepromotion.models.Admin" />
         </set>
     </class>
 </hibernate-mapping>

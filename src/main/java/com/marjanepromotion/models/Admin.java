@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "admin")
 public class Admin implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,8 +22,7 @@ public class Admin implements Serializable {
     @Column(name = "password", nullable = false, length = Integer.MAX_VALUE)
     private String password;
 
-    @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "center", nullable = false)
     private Center center;
 

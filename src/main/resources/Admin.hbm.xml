@@ -15,6 +15,7 @@
         <property name="password">
             <column name="password" sql-type="varchar"/>
         </property>
-       <one-to-one name="center" class="com.marjanepromotion.models.Center"/>
+       <many-to-one name="center" class="com.marjanepromotion.models.Center"/>
+
     </class>
 </hibernate-mapping>

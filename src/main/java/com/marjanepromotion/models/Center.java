@@ -22,14 +22,14 @@ public class Center implements Serializable {
     @OneToMany(mappedBy = "center")
     private Set<DepartmentManager> departmentManagers = new LinkedHashSet<>();
 
-    @OneToOne(mappedBy = "center")
-    private Admin admins;
+    @OneToMany(mappedBy = "center")
+    private Set<Admin> admins = new LinkedHashSet<>();
 
-    public Admin getAdmins() {
+    public Set<Admin> getAdmins() {
         return admins;
     }
 
-    public void setAdmins(Admin admins) {
+    public void setAdmins(Set<Admin> admins) {
         this.admins = admins;
     }
 

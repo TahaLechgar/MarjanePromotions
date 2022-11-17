@@ -19,7 +19,7 @@
 
             <div class="my-4 flex flex-row justify-between">
                 <h1 class="bold text-xl font-bold">Admins : </h1>
-                <button @click="managerPopup = true; actionType = 'add-manager'; managerEmail = ''" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
+                <button @click="managerPopup = true; actionType = 'add-admin'; managerEmail = ''" class="flex flex-row items-center py-2 px-4 text-white rounded-md" style="background-color: #005EB1">
                     <img class="w-4 h-4 mr-2" src="${pageContext.request.contextPath}/assets/images/ant-design_plus-circle-outlined.svg" alt="">
                     Ajouter un Admin
                 </button>
@@ -54,7 +54,7 @@
                                     </td>
                                     <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500"><c:out value="${admin.getCenter().getCity()}" /></td>
                                     <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                        <a @click="managerPopup = true; actionType = 'edit-manager';managerId = '<c:out value="${admin.getId()}" />' ; managerEmail = '<c:out value="${admin.getEmail()}" />' " href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <a @click="managerPopup = true; actionType = 'edit-admin';managerId = '<c:out value="${admin.getId()}" />' ; managerEmail = '<c:out value="${admin.getEmail()}" />' " href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -171,12 +171,14 @@
 
 </div>
 
-<template x-if="refusePromo">
+
+<template x-if="managerPopup">
     <div class="popup-overlay absolute top-0 left-0 w-screen h-screen bg-gray-900  opacity-50"></div>
 </template>
-<template x-if="refusePromo">
-    <jsp:include page="../components/modals/confirmRefusePromotion.jsp"/>
+<template x-if="managerPopup">
+    <jsp:include page="../components/modals/adminPopup.jsp"/>
 </template>
+
 
 
 <script src="${pageContext.request.contextPath}/assets/js/statusColor.js"></script>

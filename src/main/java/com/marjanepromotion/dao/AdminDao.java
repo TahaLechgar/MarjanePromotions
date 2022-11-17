@@ -40,4 +40,23 @@ public class AdminDao extends AbstractHibernateDao<Admin> implements IUser<Admin
         }
         return null;
     }
+
+
+//    @Override
+//    public Admin create(Admin entity) {
+//        try{
+//            if(entity == null){
+//                throw new NullPointerException();
+//            }
+//            Session session = getCurrentSession();
+//            session.beginTransaction();
+//            session.createQuery("insert into a", Admin.class);
+//            session.getTransaction().commit();
+//            session.close();
+//            return entity;
+//        }catch(Exception exception){
+//            System.out.println(exception.getMessage());
+//            return null;
+//        }
+//    }
 }

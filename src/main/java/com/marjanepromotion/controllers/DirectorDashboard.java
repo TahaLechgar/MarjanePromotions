@@ -1,11 +1,8 @@
 package com.marjanepromotion.controllers;
 
-import com.marjanepromotion.dao.AdminDao;
-import com.marjanepromotion.dao.PromotionDao;
-import com.marjanepromotion.models.Admin;
-import com.marjanepromotion.models.DepartmentManager;
-import com.marjanepromotion.models.Director;
-import com.marjanepromotion.models.Promotion;
+import com.marjanepromotion.dao.*;
+import com.marjanepromotion.models.*;
+import com.marjanepromotion.util.MailSender;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -15,6 +12,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "DirectorDashboard", value = "/dashboard/director/*")
@@ -135,6 +133,8 @@ public class DirectorDashboard extends HttpServlet {
 
             case "admins" -> {
                 List<Admin> admins = adminDao.findAll();
+                CenterDao centerDao = new CenterDao();
+                List<Center> centers = centerDao.findAll();
                 int recordsCount = admins.size();
                 int totalOfPages = recordsCount/rowsPerPage + 1;
                 if(pageNumber == totalOfPages){
@@ -144,6 +144,7 @@ public class DirectorDashboard extends HttpServlet {
                 request.setAttribute("totalOfPages", totalOfPages);
                 request.setAttribute("currentPage", pageNumber);
                 request.setAttribute("admins", admins);
+                request.setAttribute("centers", centers);
                 request.setAttribute("dataType", "admins");
             }
 
@@ -180,6 +181,50 @@ public class DirectorDashboard extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameter("add-admin") != null) {
+            AdminDao adminDao = new AdminDao();
+            CenterDao centerDao = new CenterDao();
 
+
+            Director logged = (Director) request.getSession().getAttribute("user");
+
+
+            String email = request.getParameter("email");
+            int centerId = Integer.parseInt(request.getParameter("admin-center"));
+
+            Center center = centerDao.findOne(centerId);
+
+            Admin newAdmin = new Admin();
+
+            newAdmin.setCenter(center);
+            newAdmin.setEmail(email);
+            String uniqueID = UUID.randomUUID().toString();
+            newAdmin.setPassword(uniqueID);
+
+            Admin wonderfulAdmin = adminDao.create(newAdmin);
+            MailSender.sendMail(email, "Account created successfully");
+
+            response.sendRedirect("/dashboard/director/admins");
+            return;
+        }
+        if(request.getParameter("edit-admin") != null) {
+            AdminDao adminDao = new AdminDao();
+            CenterDao centerDao = new CenterDao();
+
+
+            String email = request.getParameter("email");
+            int centerId = Integer.parseInt(request.getParameter("admin-center"));
+            int adminId = Integer.parseInt(request.getParameter("edit-admin"));
+
+            Center center = centerDao.findOne( centerId);
+
+            Admin admin = adminDao.findOne(adminId);
+            admin.setCenter(center);
+            admin.setEmail(email);
+
+            adminDao.update(admin);
+
+            response.sendRedirect("/dashboard/director/admins");
+        }
     }
 }
